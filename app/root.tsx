@@ -15,7 +15,43 @@ import {
 import type { Route } from "./+types/root";
 import "./app.css";
 import { Provider } from "react-redux";
-import { store } from "./store/store";
+import { store, useAppDispatch, useAppSelector } from "./store";
+import { useEffect } from "react";
+
+import {
+  cryptoActions,
+  cryptoSelectors,
+  type Cryptocurrency,
+} from "./store/cryptoSlice";
+import seed from "./data/cryptocurrencies.json";
+import { CssBaseline, ThemeProvider } from "@mui/material";
+
+/**
+ * Component that initializes cryptocurrency data and sets up the timer
+ * for price updates
+ */
+function CryptoInitializer() {
+  const dispatch = useAppDispatch();
+  const hasData = useAppSelector(
+    (s) => cryptoSelectors.selectAll(s).length > 0
+  );
+
+  useEffect(() => {
+    if (!hasData) {
+      const normalized: Cryptocurrency[] = seed.cryptocurrencies.map((c) => ({
+        id: c.id,
+        name: c.name,
+        symbol: c.symbol,
+        priceUsd: c.price,
+        image: c.image,
+        lastUpdatedIso: c.lastUpdated,
+        isFavorite: false,
+      }));
+      dispatch(cryptoActions.upsertMany(normalized));
+    }
+  }, [hasData, dispatch]);
+  return null;
+}
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -51,6 +87,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
 export default function App() {
   return (
     <Provider store={store}>
+      <CssBaseline />
+      <CryptoInitializer />
       <Outlet />
     </Provider>
   );

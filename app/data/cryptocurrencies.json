@@ -1,0 +1,44 @@
+{
+  "cryptocurrencies": [
+    {
+      "id": "bitcoin",
+      "name": "Bitcoin",
+      "symbol": "BTC",
+      "price": 50000,
+      "image": "bitcoin.png",
+      "lastUpdated": "2025-05-10T19:35:10Z"
+    },
+    {
+      "id": "ethereum",
+      "name": "Ethereum",
+      "symbol": "ETH",
+      "price": 3000,
+      "image": "ethereum.png",
+      "lastUpdated": "2025-05-10T19:35:10Z"
+    },
+    {
+      "id": "polygon",
+      "name": "Polygon",
+      "symbol": "MATIC",
+      "price": 1.5,
+      "image": "polygon.png",
+      "lastUpdated": "2025-05-10T19:35:10Z"
+    },
+    {
+      "id": "polkadot",
+      "name": "Polkadot",
+      "symbol": "DOT",
+      "price": 20,
+      "image": "polkadot.png",
+      "lastUpdated": "2025-05-10T19:35:10Z"
+    },
+    {
+      "id": "solana",
+      "name": "Solana",
+      "symbol": "SOL",
+      "price": 100,
+      "image": "solana.png",
+      "lastUpdated": "2025-05-10T19:35:10Z"
+    }
+  ]
+}

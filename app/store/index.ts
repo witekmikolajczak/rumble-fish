@@ -3,11 +3,12 @@ import {
   type ThunkAction,
   type Action,
 } from "@reduxjs/toolkit";
-import counterReducer from "./counterSlice";
+import cryptoReducer from "./cryptoSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 export const store = configureStore({
   reducer: {
-    counter: counterReducer,
+    crypto: cryptoReducer,
   },
 });
 
@@ -19,3 +20,6 @@ export type AppThunk<ReturnType = void> = ThunkAction<
   unknown,
   Action<string>
 >;
+
+export const useAppDispatch = useDispatch.withTypes<AppDispatch>();
+export const useAppSelector = useSelector.withTypes<RootState>();
