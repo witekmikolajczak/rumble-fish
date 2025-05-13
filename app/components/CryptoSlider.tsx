@@ -6,6 +6,9 @@ import { useSwipe } from "~/hooks/useSwipe";
 import { useMemo } from "react";
 
 import ArrowActivePrev from "~/assets/arrow-active-prev.svg?react";
+import ArrowDisabledPrev from "~/assets/arrow-disabled-prev.svg?react";
+import ArrowDisabledNext from "~/assets/arrow-disabled-next.svg?react";
+
 import Icon from "./Icon";
 
 interface CryptoSliderProps {
@@ -36,6 +39,10 @@ export const CryptoSlider = ({
     setIndex(clampedIndex);
   }
 
+  // Disable prev/next buttons when we're at the first/last item
+  const disabledPrev = clampedIndex === 0;
+  const disabledNext = clampedIndex === cryptos.length - 1;
+
   // Enable swipe only when slider is active & we’re on mobile
   const swipeHandlers = useSwipe(
     handleNext,
@@ -43,19 +50,20 @@ export const CryptoSlider = ({
     sliderActive && isMobile
   );
 
-  // indices of the cards to display
-  const indices = useMemo<number[]>(() => {
+  // Array of indices to render (null for empty slots)
+  const slots = useMemo<(number | null)[]>(() => {
     const len = cryptos.length;
 
-    if (len === 1) return [0];
+    if (len === 1) return [null, 0, null];
 
-    if (len === 2) return [clampedIndex];
+    if (len === 2) {
+      return clampedIndex === 0 ? [null, 0, 1] : [0, 1, null];
+    }
 
-    return [
-      (clampedIndex - 1 + len) % len,
-      clampedIndex,
-      (clampedIndex + 1) % len,
-    ];
+    if (clampedIndex === 0) return [null, 0, 1];
+    if (clampedIndex === len - 1) return [len - 2, len - 1, null];
+
+    return [clampedIndex - 1, clampedIndex, clampedIndex + 1];
   }, [cryptos.length, clampedIndex]);
 
   if (!cryptos.length) {
@@ -89,27 +97,44 @@ export const CryptoSlider = ({
         }}
         {...swipeHandlers}
       >
-        {indices.map((i) => (
-          <CryptoCard
-            key={cryptos[i].id}
-            crypto={cryptos[i]}
-            isFocused={sliderActive ? i === clampedIndex : true}
-            showHoldingsForm={showHoldingsForm}
-            onFavoriteToggle={() => setIndex(i)}
-          />
-        ))}
+        {slots.map((i, slotIdx) =>
+          i === null ? (
+            <Box
+              key={`placeholder-${slotIdx}`}
+              sx={{
+                width: { xs: 320, md: 500 },
+                flexShrink: 0,
+                visibility: "hidden",
+              }}
+            />
+          ) : (
+            <CryptoCard
+              key={cryptos[i].id}
+              crypto={cryptos[i]}
+              isFocused={slotIdx === 1}
+              showHoldingsForm={showHoldingsForm}
+              onFavoriteToggle={() => setIndex(i)}
+            />
+          )
+        )}
       </Box>
 
       {sliderActive && (
         <Box display="flex" justifyContent="center" mt={3} gap={4}>
-          <IconButton onClick={handlePrev} aria-label="Previous">
-            <Icon component={ArrowActivePrev} size={24} />
-          </IconButton>
-          <IconButton onClick={handleNext} aria-label="Next">
+          <IconButton onClick={handlePrev} disabled={disabledPrev}>
             <Icon
-              component={ArrowActivePrev}
+              component={disabledPrev ? ArrowDisabledPrev : ArrowActivePrev}
               size={24}
-              sx={{ transform: "rotate(180deg)", color: "red" }}
+            />
+          </IconButton>
+
+          <IconButton onClick={handleNext} disabled={disabledNext}>
+            <Icon
+              component={disabledNext ? ArrowDisabledNext : ArrowActivePrev}
+              size={24}
+              sx={{
+                transform: disabledNext ? "none" : "rotate(180deg)",
+              }}
             />
           </IconButton>
         </Box>
