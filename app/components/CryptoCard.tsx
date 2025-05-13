@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import type { Cryptocurrency } from "../store/cryptoSlice";
 
-import { useAppDispatch } from "../store";
+import { useAppDispatch } from "../store/hooks";
 import { cryptoActions } from "../store/cryptoSlice";
 import { formatUSD } from "~/utils/format";
 import CryptoHoldingsForm from "./CryptoHoldingsForm";
@@ -46,7 +46,7 @@ export const CryptoCard = ({
   const dispatch = useAppDispatch();
 
   const handleToggleFavorite = () => {
-    dispatch(cryptoActions.favoriteToggled(crypto.id));
+    dispatch(cryptoActions.toggleFavorite(crypto.id));
     onFavoriteToggle?.();
   };
 

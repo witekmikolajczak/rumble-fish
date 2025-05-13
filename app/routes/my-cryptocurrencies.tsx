@@ -1,8 +1,8 @@
 import { Typography, Box } from "@mui/material";
 import Layout from "../components/Layout";
 import { CryptoSlider } from "../components/CryptoSlider";
-import { useAppSelector } from "../store";
-import { selectFavorites } from "~/store/cryptoSlice";
+import { useAppSelector } from "../store/hooks";
+import { selectFavorites } from "~/store/selectors";
 
 export default function MyCryptocurrencies() {
   const favoritesCryptocurrencies = useAppSelector(selectFavorites);

@@ -1,7 +1,7 @@
 import { Typography, Box } from "@mui/material";
 import Layout from "../components/Layout";
 import { CryptoSlider } from "../components/CryptoSlider";
-import { useAppSelector } from "../store";
+import { useAppSelector } from "../store/hooks";
 import { cryptoSelectors } from "../store/cryptoSlice";
 
 export default function Index() {

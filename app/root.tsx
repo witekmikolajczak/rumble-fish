@@ -15,8 +15,10 @@ import {
 import type { Route } from "./+types/root";
 import "./app.css";
 import { Provider } from "react-redux";
-import { store, useAppDispatch, useAppSelector } from "./store";
+import { store } from "./store";
+import { useAppDispatch, useAppSelector } from "./store/hooks";
 import { useEffect } from "react";
+import { loadPersistedState } from "~/store/persistenceListener";
 
 import {
   cryptoActions,
@@ -35,6 +37,7 @@ function CryptoInitializer() {
   const hasData = useAppSelector(
     (s) => cryptoSelectors.selectAll(s).length > 0
   );
+  const { favorites, holdings } = loadPersistedState();
 
   useEffect(() => {
     if (!hasData) {
@@ -45,7 +48,8 @@ function CryptoInitializer() {
         priceUsd: c.price,
         image: c.image,
         lastUpdatedIso: c.lastUpdated,
-        isFavorite: false,
+        isFavorite: favorites.includes(c.id),
+        holdings: holdings[c.id],
       }));
       dispatch(cryptoActions.upsertMany(normalized));
     }

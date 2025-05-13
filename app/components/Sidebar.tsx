@@ -8,8 +8,8 @@ import {
 } from "@mui/material";
 import { Link, useLocation } from "react-router";
 import Icon from "./Icon";
-import { useAppSelector } from "~/store";
-import { selectTotalPortfolioUsd } from "~/store/cryptoSlice";
+import { useAppSelector } from "~/store/hooks";
+import { selectTotalPortfolioUsd } from "~/store/selectors";
 import { formatUSD } from "~/utils/format";
 import HeartIcon from "~/assets/heart.svg?react";
 import HeartIconBlack from "~/assets/heart-black.svg?react";

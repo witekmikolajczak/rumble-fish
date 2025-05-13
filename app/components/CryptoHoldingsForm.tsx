@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 
-import { useAppDispatch } from "../store";
+import { useAppDispatch } from "../store/hooks";
 import { cryptoActions } from "../store/cryptoSlice";
 import { formatUSD } from "../utils/format";
 
@@ -47,7 +47,7 @@ export default function CryptoHoldingsForm({ crypto }: Props) {
       comment,
     };
     dispatch(
-      cryptoActions.holdingsUpdated({ id: crypto.id, holdings: payload })
+      cryptoActions.updateHoldings({ id: crypto.id, holdings: payload })
     );
   };
 

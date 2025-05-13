@@ -1,7 +1,7 @@
 import { AppBar, Box, Toolbar, Typography } from "@mui/material";
 import { formatUSD } from "../utils/format";
-import { useAppSelector } from "~/store";
-import { selectTotalPortfolioUsd } from "~/store/cryptoSlice";
+import { useAppSelector } from "~/store/hooks";
+import { selectTotalPortfolioUsd } from "~/store/selectors";
 
 export const Topbar = () => {
   const total = useAppSelector(selectTotalPortfolioUsd);

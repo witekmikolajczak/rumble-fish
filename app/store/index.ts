@@ -1,25 +1,17 @@
-import {
-  configureStore,
-  type ThunkAction,
-  type Action,
-} from "@reduxjs/toolkit";
-import cryptoReducer from "./cryptoSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { configureStore } from "@reduxjs/toolkit";
+import cryptoReducer, { initialCryptoState } from "./cryptoSlice";
+import { persistenceListener } from "./persistenceListener";
+
+const preloadedState = {
+  crypto: initialCryptoState,
+} as const;
 
 export const store = configureStore({
-  reducer: {
-    crypto: cryptoReducer,
-  },
+  reducer: { crypto: cryptoReducer },
+  middleware: (getDefault) =>
+    getDefault().prepend(persistenceListener.middleware),
+  preloadedState,
 });
 
-export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;
-export type AppThunk<ReturnType = void> = ThunkAction<
-  ReturnType,
-  RootState,
-  unknown,
-  Action<string>
->;
-
-export const useAppDispatch = useDispatch.withTypes<AppDispatch>();
-export const useAppSelector = useSelector.withTypes<RootState>();
+export type AppDispatch = typeof store.dispatch;
