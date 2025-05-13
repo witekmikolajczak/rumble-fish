@@ -7,12 +7,15 @@ import {
   Typography,
 } from "@mui/material";
 import type { Cryptocurrency } from "../store/cryptoSlice";
-import { FavoriteBorderIcon, FavoriteIcon } from "./Icons";
+
 import { useAppDispatch } from "../store";
 import { cryptoActions } from "../store/cryptoSlice";
 import { formatUSD } from "~/utils/format";
 import CryptoHoldingsForm from "./CryptoHoldingsForm";
 import { formatDateTime } from "~/utils/format";
+import FavoriteIcon from "~/assets/favorites.svg?react";
+import FavoriteFillIcon from "~/assets/favorites-fill.svg?react";
+import Icon from "./Icon";
 
 interface CryptoCardProps {
   /**
@@ -114,9 +117,9 @@ export const CryptoCard = ({
             }
           >
             {crypto.isFavorite ? (
-              <FavoriteIcon color="error" />
+              <Icon component={FavoriteFillIcon} />
             ) : (
-              <FavoriteBorderIcon />
+              <Icon component={FavoriteIcon} />
             )}
           </IconButton>
         </Box>

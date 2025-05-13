@@ -1,10 +1,12 @@
 import { Box, IconButton, useMediaQuery, useTheme } from "@mui/material";
-import { ArrowBackIosNewIcon, ArrowForwardIosIcon } from "./Icons";
 import { CryptoCard } from "./CryptoCard";
 import type { Cryptocurrency } from "../store/cryptoSlice";
 import { useSlider } from "~/hooks/useSlider";
 import { useSwipe } from "~/hooks/useSwipe";
 import { useMemo } from "react";
+
+import ArrowActivePrev from "~/assets/arrow-active-prev.svg?react";
+import Icon from "./Icon";
 
 interface CryptoSliderProps {
   /**
@@ -101,10 +103,14 @@ export const CryptoSlider = ({
       {sliderActive && (
         <Box display="flex" justifyContent="center" mt={3} gap={4}>
           <IconButton onClick={handlePrev} aria-label="Previous">
-            <ArrowBackIosNewIcon />
+            <Icon component={ArrowActivePrev} size={24} />
           </IconButton>
           <IconButton onClick={handleNext} aria-label="Next">
-            <ArrowForwardIosIcon />
+            <Icon
+              component={ArrowActivePrev}
+              size={24}
+              sx={{ transform: "rotate(180deg)", color: "red" }}
+            />
           </IconButton>
         </Box>
       )}

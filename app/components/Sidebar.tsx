@@ -11,8 +11,11 @@ import Icon from "./Icon";
 import { useAppSelector } from "~/store";
 import { selectTotalPortfolioUsd } from "~/store/cryptoSlice";
 import { formatUSD } from "~/utils/format";
-
-export const DRAWER_WIDTH = 240;
+import HeartIcon from "~/assets/heart.svg?react";
+import HeartIconBlack from "~/assets/heart-black.svg?react";
+import DolarIcon from "~/assets/dolar.svg?react";
+import DolarIconBlack from "~/assets/dolar-black.svg?react";
+import WalletIcon from "~/assets/wallet.svg?react";
 
 /**
  * Sidebar component that contains navigation links
@@ -45,7 +48,7 @@ export default function Sidebar() {
               paddingRight: "16px",
             }}
           >
-            <Icon src="/wallet.svg" alt="Wallet icon" width={18} />
+            <Icon component={WalletIcon} size={18} />
             <Typography
               sx={{
                 color: "white",
@@ -77,11 +80,8 @@ export default function Sidebar() {
             }}
           >
             <Icon
-              src="/dolar.svg"
-              alt="Dollar icon"
-              width={18}
-              isActive={location.pathname === "/"}
-              activeColor="black"
+              component={location.pathname === "/" ? DolarIconBlack : DolarIcon}
+              size={18}
             />
             <ListItemText
               primary="Pick Favorites"
@@ -109,11 +109,12 @@ export default function Sidebar() {
             }}
           >
             <Icon
-              src="/heart.svg"
-              alt="Heart icon"
-              width={18}
-              isActive={location.pathname === "/my-cryptocurrencies"}
-              activeColor="black"
+              component={
+                location.pathname === "/my-cryptocurrencies"
+                  ? HeartIconBlack
+                  : HeartIcon
+              }
+              size={18}
             />
             <ListItemText
               primary="My Cryptocurrencies"
