@@ -25,7 +25,7 @@ export const CryptoSlider = ({
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   // Enable slider only when we have at least 3 items
-  const sliderActive = cryptos.length >= 3;
+  const sliderActive = cryptos.length >= 2;
 
   const { index, handlePrev, handleNext, setIndex } = useSlider(cryptos.length);
 
@@ -44,13 +44,17 @@ export const CryptoSlider = ({
   // indices of the cards to display
   const indices = useMemo<number[]>(() => {
     const len = cryptos.length;
-    if (!sliderActive) return cryptos.map((_, i) => i);
+
+    if (len === 1) return [0];
+
+    if (len === 2) return [clampedIndex];
+
     return [
       (clampedIndex - 1 + len) % len,
       clampedIndex,
       (clampedIndex + 1) % len,
     ];
-  }, [sliderActive, cryptos.length, clampedIndex]);
+  }, [cryptos.length, clampedIndex]);
 
   if (!cryptos.length) {
     return (
